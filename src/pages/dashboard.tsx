@@ -1,11 +1,31 @@
 import React from 'react';
-import { IonPage, IonHeader, IonContent, IonToolbar, IonTitle, IonList, IonItem } from '@ionic/react';
+import {
+  IonPage,
+  IonHeader,
+  IonContent,
+  IonToolbar,
+  IonTitle,
+  IonList
+} from '@ionic/react';
 
 import Plod from '../components/plod';
 
 import './dashboard.css';
+import { PlodData } from '../utils/types';
 
 const Dashboard: React.FC = () => {
+  const plods: PlodData[] = [
+    {
+      goal: 1000,
+      completed: 300,
+      units: 'practice tests'
+    },
+    {
+      goal: 10000,
+      completed: 8000,
+      units: 'pushups'
+    }
+  ];
   return (
     <IonPage>
       <IonHeader>
@@ -16,15 +36,11 @@ const Dashboard: React.FC = () => {
       <IonContent>
         <div className="dashboard-main">
           <IonList>
-            <IonItem>
-              <Plod></Plod>
-            </IonItem>
-            <IonItem>
-              <Plod></Plod>
-            </IonItem>
-            <IonItem>
-              <Plod></Plod>
-            </IonItem>
+            {
+              plods.map(plod => {
+                return (<Plod plod={plod}></Plod>)
+              })
+            }
           </IonList>
         </div>
       </IonContent>
