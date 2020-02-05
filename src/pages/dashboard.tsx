@@ -1,4 +1,6 @@
 import React from 'react';
+import { Plugins } from '@capacitor/core';
+
 import {
   IonPage,
   IonHeader,
@@ -13,6 +15,8 @@ import Plod from '../components/plod';
 import './dashboard.css';
 import { PlodData } from '../utils/types';
 
+const { Storage } = Plugins;
+
 const Dashboard: React.FC = () => {
   const plods: PlodData[] = [
     {
@@ -26,6 +30,9 @@ const Dashboard: React.FC = () => {
       units: 'pushups'
     }
   ];
+
+
+
   return (
     <IonPage>
       <IonHeader>

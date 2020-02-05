@@ -24,13 +24,15 @@ import '@ionic/react/css/display.css';
 import './theme/variables.css';
 import { Route, Redirect } from 'react-router';
 import Dashboard from './pages/dashboard';
+import NewPlod from './pages/newPlod';
 
 const App: React.FC = () => (
   <IonApp>
     <IonReactRouter>
       <IonRouterOutlet>
         <Route path="/dashboard" component={Dashboard} />
-        <Route path="/" render={() => <Redirect to="/dashboard" />} exact={true} />
+        <Route path="/new" component={NewPlod} />
+        <Route path="/" render={() => <Redirect to="/new" />} exact={true} />
       </IonRouterOutlet>
     </IonReactRouter>
   </IonApp>
