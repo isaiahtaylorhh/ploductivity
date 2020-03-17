@@ -14,17 +14,10 @@ import {
   IonLabel
 } from '@ionic/react';
 import { RouteChildrenProps } from 'react-router';
+import { PlodData } from '../utils/plodding';
 
-const { Storage } = Plugins;
-
-const saveNewPlod = async (goal: number, units: string): Promise<void> => {
-  return Storage.set({
-    key: 'newPlod',
-    value: JSON.stringify({
-      goal,
-      units
-    })
-  })
+const saveNewPlod = (goal: number, units: string): PlodData => {
+  return new PlodData(goal, 0, units);
 }
 
 const NewPlod = (props: RouteChildrenProps) => {
@@ -38,7 +31,7 @@ const NewPlod = (props: RouteChildrenProps) => {
           <IonTitle>New Plod</IonTitle>
           <IonButton onClick={async () => {
             await saveNewPlod(goalValue, unitsValue);
-            props.history.push('/dashboard')
+            props.history.push('/dashboard');
           }}>Save</IonButton>
         </IonToolbar>
       </IonHeader>

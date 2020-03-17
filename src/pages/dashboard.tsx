@@ -1,5 +1,5 @@
-import React from 'react';
-import { Plugins } from '@capacitor/core';
+import React, { useState } from 'react';
+import { useAsync } from 'react-async-hook';
 
 import {
   IonPage,
@@ -7,48 +7,43 @@ import {
   IonContent,
   IonToolbar,
   IonTitle,
-  IonList
+  IonList,
+  IonButton
 } from '@ionic/react';
 
 import Plod from '../components/plod';
 
 import './dashboard.css';
-import { PlodData } from '../utils/types';
+import { PlodType } from '../utils/types';
+import { PlodData, getAllPlods } from '../utils/plodding';
+import { RouteChildrenProps } from 'react-router';
 
-const { Storage } = Plugins;
+const Dashboard = (props: RouteChildrenProps) => {
+  const plods = useAsync(getAllPlods, []);
 
-const Dashboard: React.FC = () => {
-  const plods: PlodData[] = [
-    {
-      goal: 1000,
-      completed: 300,
-      units: 'practice tests'
-    },
-    {
-      goal: 10000,
-      completed: 8000,
-      units: 'pushups'
-    }
-  ];
+  console.log('test');
 
-
+  console.log(plods);
 
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
           <IonTitle>Ploductivity</IonTitle>
+          <IonButton onClick={() => {
+            props.history.push('/new');
+          }}></IonButton>
         </IonToolbar>
       </IonHeader>
       <IonContent>
         <div className="dashboard-main">
-          <IonList>
+          {plods.result && <IonList>
             {
-              plods.map(plod => {
-                return (<Plod plod={plod}></Plod>)
+              plods.result.map(plod => {
+                return (<Plod key={plod.prefix} plod={plod}></Plod>)
               })
             }
-          </IonList>
+          </IonList>}
         </div>
       </IonContent>
     </IonPage>

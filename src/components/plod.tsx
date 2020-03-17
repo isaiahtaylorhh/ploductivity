@@ -3,21 +3,22 @@ import React from 'react';
 import { IonProgressBar } from '@ionic/react';
 
 import './plod.css';
-import { PlodData } from '../utils/types';
+import { PlodType } from '../utils/types';
+import { PlodData } from '../utils/plodding';
 
 interface PlodProps {
   plod: PlodData;
 }
 
-const Plod: React.FC<PlodProps> = (props: PlodProps) => {
-  const { plod: { goal, completed, units } } = props;
+const Plod = (props: PlodProps) => {
+  const { plod } = props;
   return (
     <div className="Plod">
-      <div className="plodName">{`${goal} ${units}`}</div>
+      <div className="plodName">{`${plod.goal} ${plod.units}`}</div>
 
       <IonProgressBar
         color="danger"
-        value={completed / goal}></IonProgressBar>
+        value={plod.completed / plod.goal}></IonProgressBar>
     </div>
   )
 }
