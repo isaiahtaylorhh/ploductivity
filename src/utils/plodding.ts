@@ -14,9 +14,7 @@ const getPool = async (): Promise<string[]> => {
 }
 
 export const getAllPlods = async (): Promise<PlodData[]> => {
-  console.log('gothere');
   const pool = await getPool();
-  console.log(pool);
   const plods = pool.map(key => new PlodData(0, 0, 'null', key));
   const plodPromises = plods.map(plod => plod.loadUp());
   await Promise.all(plodPromises);
@@ -64,23 +62,12 @@ export class PlodData {
 
   async loadUp() {
     const goal = await this.getInt('goal');
-    console.log('HERE IS MY GOAL');
-    const completed = await this.getInt('complete');
-    console.log('HERE IS MY comp');
+    const completed = await this.getInt('completed');
     const units = await this.getAttribute('units');
-    console.log('HERE IS MY unit');
 
     this._goal = goal;
-
     this._completed = completed;
-
     this._units = units;
-
-
-    // console.log('HERE IS MY GOAL');
-    console.log(goal);
-    console.log(completed);
-    console.log(units);
   }
 
   async remove() {
@@ -100,30 +87,28 @@ export class PlodData {
   }
 
   private async setAttribute(attribute: string, value: any) {
-
-    await Storage.set({
-      key: `${this.prefix}_${attribute}`,
-      value: `${value}`
-    })
-
-    console.log(`${this.prefix}_${attribute}`);
-    console.log(`stored ${attribute}`);
-
+    try {
+      await Storage.set({
+        key: `${this.prefix}_${attribute}`,
+        value: JSON.stringify(value)
+      })
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   private async getAttribute(attribute: string): Promise<string> {
-    console.log(`${this.prefix}_${attribute}`);
     const result = await Storage.get({ key: `${this.prefix}_${attribute}` });
     if (result.value === null) {
-      alert(attribute);
       throw Error('Not stored');
     }
 
-    return result.value;
+    return JSON.parse(result.value);
   }
 
   private async getInt(attribute: string): Promise<number> {
-    return parseInt(await this.getAttribute(attribute), 10);
+    const attr = await this.getAttribute(attribute);
+    return parseInt(attr, 10);
   }
 
   get goal(): number {

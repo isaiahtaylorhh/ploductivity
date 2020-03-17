@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { IonProgressBar } from '@ionic/react';
+import { IonProgressBar, IonButton } from '@ionic/react';
 
 import './plod.css';
 import { PlodType } from '../utils/types';
@@ -14,7 +14,14 @@ const Plod = (props: PlodProps) => {
   const { plod } = props;
   return (
     <div className="Plod">
-      <div className="plodName">{`${plod.goal} ${plod.units}`}</div>
+      <div className="plodTop">
+        <div className="plodName">{`${plod.goal} ${plod.units}`}</div>
+        <IonButton onClick={() => {
+          plod.completed = plod.completed + 1;
+        }}>
+          Did it
+        </IonButton>
+      </div>
 
       <IonProgressBar
         color="danger"

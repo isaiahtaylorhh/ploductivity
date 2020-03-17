@@ -13,17 +13,18 @@ import {
 
 import Plod from '../components/plod';
 
+import { Plugins } from '@capacitor/core';
+
+
 import './dashboard.css';
 import { PlodType } from '../utils/types';
 import { PlodData, getAllPlods } from '../utils/plodding';
 import { RouteChildrenProps } from 'react-router';
+const { Storage } = Plugins;
 
 const Dashboard = (props: RouteChildrenProps) => {
   const plods = useAsync(getAllPlods, []);
 
-  console.log('test');
-
-  console.log(plods);
 
   return (
     <IonPage>
@@ -32,7 +33,7 @@ const Dashboard = (props: RouteChildrenProps) => {
           <IonTitle>Ploductivity</IonTitle>
           <IonButton onClick={() => {
             props.history.push('/new');
-          }}></IonButton>
+          }}>New</IonButton>
         </IonToolbar>
       </IonHeader>
       <IonContent>
