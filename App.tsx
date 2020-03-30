@@ -8,90 +8,48 @@
  * @format
  */
 
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import {
   SafeAreaView,
   StyleSheet,
   ScrollView,
   View,
-  Text,
   StatusBar,
 } from 'react-native';
 
-import AsyncStorage from '@react-native-community/async-storage';
+import {Header, Text, Card, CardItem} from 'native-base';
+import {useStorage} from './utils/storage';
 
-import {Button} from 'native-base';
-
-//https://gist.github.com/EduVencovsky/dbaff299f7de6fe94538086c137f21d3
-const useStorage = (key: string, initialValue: number): [number, Function] => {
-  const [hasLoad, setHasLoad] = useState(false);
-  const [data, setData] = useState(initialValue);
-
-  const set = async (newData: number) => {
-    setData(newData);
-    return newData === null
-      ? AsyncStorage.removeItem(key)
-      : AsyncStorage.setItem(key, JSON.stringify(newData));
-  };
-
-  useEffect(() => {
-    setHasLoad(false);
-  }, [key]);
-
-  useEffect(() => {
-    if (!hasLoad) {
-      AsyncStorage.getItem(key).then((res) => {
-        if (res === null) {
-          AsyncStorage.setItem(key, JSON.stringify(data));
-          setData(data);
-        } else {
-          setData(JSON.parse(res));
-        }
-        setHasLoad(true);
-      });
-    }
-  }, [key, hasLoad, data]);
-
-  return [data, set];
-};
+interface Plod {
+  goal: number;
+  units: string;
+}
 
 const App = () => {
-  const [count, setCount] = useStorage('count', 0);
+  const [plods] = useStorage<Plod[]>('plods', [{goal: 23, units: 'test'}]);
   return (
     <>
       <StatusBar barStyle="dark-content" />
       <SafeAreaView>
+        <Header>
+          <Text>Ploductivity</Text>
+        </Header>
         <ScrollView
           contentInsetAdjustmentBehavior="automatic"
           style={styles.scrollView}>
           <View style={styles.body}>
-            <Button
-              onPress={() => {
-                setCount(count + 1);
-              }}>
-              <Text>{count}</Text>
-            </Button>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Step One</Text>
-              <Text style={styles.sectionDescription}>
-                Edit <Text style={styles.highlight}>App.tsx</Text> to change
-                this screen and then come back to see your edits.
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>See Your Changes</Text>
-              <Text style={styles.sectionDescription} />
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Debug</Text>
-              <Text style={styles.sectionDescription} />
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Learn More</Text>
-              <Text style={styles.sectionDescription}>
-                Read the docs to discover what to do next:
-              </Text>
-            </View>
+            {plods.map((plod) => {
+              return (
+                <Card key={`${plod.units}_${plod.goal}`}>
+                  <CardItem header>
+                    <Text>{plod.goal}</Text>
+                  </CardItem>
+                  <CardItem>
+                    <Text>{plod.units}</Text>
+                  </CardItem>
+                </Card>
+              );
+            })}
           </View>
         </ScrollView>
       </SafeAreaView>
