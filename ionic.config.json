@@ -1,7 +1,0 @@
-{
-  "name": "ploductivity",
-  "integrations": {
-    "capacitor": {}
-  },
-  "type": "react"
-}

@@ -1,8 +1,0 @@
-{
-  "appId": "com.isaiahtaylor.ploductivity",
-  "appName": "ploductivity",
-  "bundledWebRuntime": false,
-  "npmClient": "npm",
-  "webDir": "build",
-  "cordova": {}
-}

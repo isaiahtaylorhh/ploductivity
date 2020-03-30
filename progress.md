@@ -13,3 +13,6 @@ Created the plod type and added progress bars
 
 ## 2/5/20
 Took a break and came back. Got a bit carried away today... 37 mins. Added the "new plod" page with a form and some storage.
+
+## 3/29/20
+Worked on this on and off. This sounds crazy, but I'm going to wipe everything and start over in React Native. The time has not been wasted; I've learned a good bit and solidified my vision for what I want. Here it goes!
