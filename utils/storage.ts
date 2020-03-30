@@ -2,14 +2,11 @@ import AsyncStorage from '@react-native-community/async-storage';
 import {useState, useEffect} from 'react';
 
 //https://gist.github.com/EduVencovsky/dbaff299f7de6fe94538086c137f21d3
-export const useStorage = (
-  key: string,
-  initialValue: number,
-): [number, Function] => {
+export const useStorage = <T>(key: string, initialValue: T): [T, Function] => {
   const [hasLoad, setHasLoad] = useState(false);
   const [data, setData] = useState(initialValue);
 
-  const set = async (newData: number) => {
+  const set = async (newData: T) => {
     setData(newData);
     return newData === null
       ? AsyncStorage.removeItem(key)
