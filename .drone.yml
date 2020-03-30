@@ -6,5 +6,5 @@ steps:
   - name: app
     image: theanam/react-native
     commands:
-      - npm ci
+      - yarn install --frozen-lockfile
       - CI=true npm test
