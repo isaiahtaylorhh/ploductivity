@@ -6,4 +6,5 @@ steps:
   - name: app
     image: theanam/react-native
     commands:
+      - npm ci
       - CI=true npm test
