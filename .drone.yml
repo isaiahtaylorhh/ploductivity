@@ -1,0 +1,7 @@
+kind: pipeline
+type: docker
+name: default
+
+steps:
+  - name: app
+    # todo
