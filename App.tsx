@@ -22,6 +22,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 import {Button} from 'native-base';
 
+//https://gist.github.com/EduVencovsky/dbaff299f7de6fe94538086c137f21d3
 const useStorage = (key: string, initialValue: number): [number, Function] => {
   const [hasLoad, setHasLoad] = useState(false);
   const [data, setData] = useState(initialValue);
