@@ -13,3 +13,8 @@ We're using GitHub for source control. Make sure to create new branches and open
 ### CI/CD
 
 Builds and tests go through Drone CI.
+
+
+### VS Code Setup
+
+I recommend using the ESLint plugin. In VS, you'll need to disable `formatOnSave` because ESLint will do the formatting for you.

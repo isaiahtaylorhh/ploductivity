@@ -8,7 +8,7 @@
  * @format
  */
 
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -18,17 +18,44 @@ import {
   StatusBar,
 } from 'react-native';
 
-import {
-  Header,
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+import AsyncStorage from '@react-native-community/async-storage';
 
-declare var global: {HermesInternal: null | {}};
+import {Button} from 'native-base';
+
+const useStorage = (key: string, initialValue: number): [number, Function] => {
+  const [hasLoad, setHasLoad] = useState(false);
+  const [data, setData] = useState(initialValue);
+
+  const set = async (newData: number) => {
+    setData(newData);
+    return newData === null
+      ? AsyncStorage.removeItem(key)
+      : AsyncStorage.setItem(key, JSON.stringify(newData));
+  };
+
+  useEffect(() => {
+    setHasLoad(false);
+  }, [key]);
+
+  useEffect(() => {
+    if (!hasLoad) {
+      AsyncStorage.getItem(key).then((res) => {
+        if (res === null) {
+          AsyncStorage.setItem(key, JSON.stringify(data));
+          setData(data);
+        } else {
+          setData(JSON.parse(res));
+        }
+        setHasLoad(true);
+      });
+    }
+  }, [key, hasLoad, data]);
+
+  return [data, set];
+};
 
 const App = () => {
+  const [count, setCount] = useStorage('count', 0);
   return (
     <>
       <StatusBar barStyle="dark-content" />
@@ -36,13 +63,13 @@ const App = () => {
         <ScrollView
           contentInsetAdjustmentBehavior="automatic"
           style={styles.scrollView}>
-          <Header />
-          {global.HermesInternal == null ? null : (
-            <View style={styles.engine}>
-              <Text style={styles.footer}>Engine: Hermes</Text>
-            </View>
-          )}
           <View style={styles.body}>
+            <Button
+              onPress={() => {
+                setCount(count + 1);
+              }}>
+              <Text>{count}</Text>
+            </Button>
             <View style={styles.sectionContainer}>
               <Text style={styles.sectionTitle}>Step One</Text>
               <Text style={styles.sectionDescription}>
@@ -52,15 +79,11 @@ const App = () => {
             </View>
             <View style={styles.sectionContainer}>
               <Text style={styles.sectionTitle}>See Your Changes</Text>
-              <Text style={styles.sectionDescription}>
-                <ReloadInstructions />
-              </Text>
+              <Text style={styles.sectionDescription} />
             </View>
             <View style={styles.sectionContainer}>
               <Text style={styles.sectionTitle}>Debug</Text>
-              <Text style={styles.sectionDescription}>
-                <DebugInstructions />
-              </Text>
+              <Text style={styles.sectionDescription} />
             </View>
             <View style={styles.sectionContainer}>
               <Text style={styles.sectionTitle}>Learn More</Text>
@@ -68,7 +91,6 @@ const App = () => {
                 Read the docs to discover what to do next:
               </Text>
             </View>
-            <LearnMoreLinks />
           </View>
         </ScrollView>
       </SafeAreaView>
@@ -78,14 +100,14 @@ const App = () => {
 
 const styles = StyleSheet.create({
   scrollView: {
-    backgroundColor: Colors.lighter,
+    // backgroundColor: Colors.lighter,
   },
   engine: {
     position: 'absolute',
     right: 0,
   },
   body: {
-    backgroundColor: Colors.white,
+    // backgroundColor: Colors.white,
   },
   sectionContainer: {
     marginTop: 32,
@@ -94,19 +116,19 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 24,
     fontWeight: '600',
-    color: Colors.black,
+    // color: Colors.black,
   },
   sectionDescription: {
     marginTop: 8,
     fontSize: 18,
     fontWeight: '400',
-    color: Colors.dark,
+    // color: Colors.dark,
   },
   highlight: {
     fontWeight: '700',
   },
   footer: {
-    color: Colors.dark,
+    // color: Colors.dark,
     fontSize: 12,
     fontWeight: '600',
     padding: 4,
