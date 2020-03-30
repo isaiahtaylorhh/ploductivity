@@ -4,4 +4,7 @@ name: default
 
 steps:
   - name: app
-    # todo
+    image: theanam/react-native
+    commands:
+      - yarn install --frozen-lockfile
+      - CI=true npm test
