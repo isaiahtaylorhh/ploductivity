@@ -4,4 +4,6 @@ name: default
 
 steps:
   - name: app
-    # todo
+    image: theanam/react-native
+    commands:
+      - CI=true npm test
