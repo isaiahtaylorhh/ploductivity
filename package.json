@@ -10,6 +10,8 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
   "dependencies": {
+    "@react-native-community/async-storage": "^1.8.1",
+    "native-base": "^2.13.12",
     "react": "16.11.0",
     "react-native": "0.62.0"
   },
@@ -26,8 +28,8 @@
     "eslint": "^6.5.1",
     "jest": "^24.9.0",
     "metro-react-native-babel-preset": "^0.58.0",
-    "react-test-renderer": "16.11.0",
     "prettier": "^2.0.2",
+    "react-test-renderer": "16.11.0",
     "typescript": "^3.8.3"
   },
   "jest": {
@@ -39,6 +41,8 @@
       "jsx",
       "json",
       "node"
-    ]
+    ],
+    "transformIgnorePatterns": ["node_modules/(?!(react-native.+|react-native|native-base-shoutem-theme|@react-native-community)/)"],
+    "setupFiles": ["./jest.setup.js"]
   }
 }
