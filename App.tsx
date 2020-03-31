@@ -17,8 +17,19 @@ import {
   StatusBar,
 } from 'react-native';
 
-import {Header, Text, Card, CardItem} from 'native-base';
+import {
+  Header,
+  Text,
+  Card,
+  CardItem,
+  Button,
+  Right,
+  Body,
+  Left,
+} from 'native-base';
 import {useStorage} from './utils/storage';
+
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 interface Plod {
   goal: number;
@@ -32,7 +43,15 @@ const App = () => {
       <StatusBar barStyle="dark-content" />
       <SafeAreaView>
         <Header>
-          <Text>Ploductivity</Text>
+          <Left />
+          <Body>
+            <Text>Ploductivity</Text>
+          </Body>
+          <Right>
+            <Button style={styles.headerButton}>
+              <Icon name="done" />
+            </Button>
+          </Right>
         </Header>
         <ScrollView
           contentInsetAdjustmentBehavior="automatic"
@@ -58,6 +77,12 @@ const App = () => {
 };
 
 const styles = StyleSheet.create({
+  headerButton: {
+    // margin: 30,
+    // padding: 30,
+    height: 35,
+    width: 35,
+  },
   scrollView: {
     // backgroundColor: Colors.lighter,
   },
