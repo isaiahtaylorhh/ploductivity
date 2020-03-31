@@ -29,6 +29,9 @@ import {
 } from 'native-base';
 import {useStorage} from './utils/storage';
 
+import {NavigationContainer} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
+
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 interface Plod {
@@ -36,43 +39,56 @@ interface Plod {
   units: string;
 }
 
+const Stack = createStackNavigator();
+
 const App = () => {
   const [plods] = useStorage<Plod[]>('plods', [{goal: 23, units: 'test'}]);
   return (
-    <>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
-        <Header>
-          <Left />
-          <Body>
-            <Text>Ploductivity</Text>
-          </Body>
-          <Right>
-            <Button style={styles.headerButton}>
-              <Icon name="done" />
-            </Button>
-          </Right>
-        </Header>
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}>
-          <View style={styles.body}>
-            {plods.map((plod) => {
-              return (
-                <Card key={`${plod.units}_${plod.goal}`}>
-                  <CardItem header>
-                    <Text>{plod.goal}</Text>
-                  </CardItem>
-                  <CardItem>
-                    <Text>{plod.units}</Text>
-                  </CardItem>
-                </Card>
-              );
-            })}
-          </View>
-        </ScrollView>
-      </SafeAreaView>
-    </>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Home"
+          component={() => {
+            return (
+              <>
+                <StatusBar barStyle="dark-content" />
+                <SafeAreaView>
+                  <Header>
+                    <Left />
+                    <Body>
+                      <Text>Ploductivity</Text>
+                    </Body>
+                    <Right>
+                      <Button style={styles.headerButton}>
+                        <Icon name="done" />
+                      </Button>
+                    </Right>
+                  </Header>
+                  <ScrollView
+                    contentInsetAdjustmentBehavior="automatic"
+                    style={styles.scrollView}>
+                    <View style={styles.body}>
+                      {plods.map((plod) => {
+                        return (
+                          <Card key={`${plod.units}_${plod.goal}`}>
+                            <CardItem header>
+                              <Text>{plod.goal}</Text>
+                            </CardItem>
+                            <CardItem>
+                              <Text>{plod.units}</Text>
+                            </CardItem>
+                          </Card>
+                        );
+                      })}
+                    </View>
+                  </ScrollView>
+                </SafeAreaView>
+              </>
+            );
+          }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 };
 
